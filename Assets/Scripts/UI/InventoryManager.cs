@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public int maxStackedItems = 9999;
     public InventorySlot[] inventorySlots;
     public GameObject inventoryItemPrefab;
 
-    int selectedSlot = -1;
+    int selectedSlot = 0;
     public bool isHoldingCheese = false;
     private void Start()
     {
@@ -50,7 +49,7 @@ public class InventoryManager : MonoBehaviour
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
             if (itemInSlot != null &&
                 itemInSlot.item == item &&
-                itemInSlot.count < maxStackedItems &&
+                itemInSlot.count < 99 &&
                 itemInSlot.item.stackable == true)
             {
 
