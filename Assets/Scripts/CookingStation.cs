@@ -11,13 +11,25 @@ public class CookingStation : MonoBehaviour
     public int cheeseCount = 4;
     public int spicyCheeseCount = 4;
 
+    public GameObject smokeAnimation;
+    public float gifDuration = 2f;
+
     void Start()
     {
         if (testGroup != null)
         {
             testGroup.SetActive(false);
         }
-        
+        if (smokeAnimation != null)
+        {
+            smokeAnimation.SetActive(false);
+        }
+
+        // Ensure the inventory starts empty
+        if (inventoryManager != null)
+        {
+            inventoryManager.ClearInventory();
+        }
     }
 
     public void StartDelay()
@@ -41,7 +53,9 @@ public class CookingStation : MonoBehaviour
                 inventoryManager.ClearInventory();
                 StartDelay();
             }
-            
+            ShowSmokeAnimation();
+            Debug.Log("test");
+
             // Reset the velocity and position of pet
             GameEvents.current.resetPetPos?.Invoke();
         }
@@ -82,6 +96,24 @@ public class CookingStation : MonoBehaviour
         for (int i = 0; i < spicyCheeseCount; i++)
         {
             inventoryManager.AddItem(spicyCheese);
+        }
+    }
+
+    private void ShowSmokeAnimation()
+    {
+        if (smokeAnimation != null)
+        {
+            smokeAnimation.SetActive(true);
+            StartCoroutine(HideSmokeAnimationAfterDelay());
+        }
+    }
+
+    private IEnumerator HideSmokeAnimationAfterDelay()
+    {
+        yield return new WaitForSeconds(gifDuration);
+        if (smokeAnimation != null)
+        {
+            smokeAnimation.SetActive(false);
         }
     }
 }
