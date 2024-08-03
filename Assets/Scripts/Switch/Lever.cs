@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Lever for door
-public class DoorLever : MonoBehaviour
+public class Lever : MonoBehaviour
 {
     [SerializeField] GameObject visualLever;
     [SerializeField] GameObject door; // Reference to the door GameObject
+    [SerializeField] GameObject switchObject; 
     [SerializeField] bool switchOn;
     [SerializeField] float yRot;
     float rotationRange = 20f;
@@ -30,13 +31,18 @@ public class DoorLever : MonoBehaviour
         }
 
         switchOn = false;
-        UpdateDoorState(); // Ensure bridge state is correct at start
+        UpdateState(); // Ensure object state is correct at start
     }
 
     // Update is called once per frame
     void Update()
     {
         hitCooldown += Time.deltaTime;
+        RotateVisualLever();
+    }
+
+    private void RotateVisualLever()
+    {
         if (switchOn)
         {
             rotation += (rotationRange - rotation) * speed * Time.deltaTime;
@@ -55,21 +61,36 @@ public class DoorLever : MonoBehaviour
             if (other.gameObject.CompareTag("rat") || other.gameObject.CompareTag("Player"))
             {
                 switchOn = !switchOn;
-                UpdateDoorState();
+                UpdateState();
                 hitCooldown = 0;
             }
-
-        } else
+        } 
+        else
         {
             Debug.Log("Switch Cooldown too Low: " + hitCooldown + " / " + hitCooldownMax); 
         }
     }
 
-    private void UpdateDoorState()
+    private void UpdateState()
     {
-        if (door != null)
+        if (switchObject != null)
         {
-            door.SetActive(!switchOn);
+            if (switchObject.CompareTag("Bridge"))
+            {
+                if (switchOn)
+                {
+                    GameEvents.current.lowerBridge?.Invoke();
+                }
+                else
+                {
+                    GameEvents.current.stopBridge?.Invoke();
+                }
+            }
+
+            if (switchObject.CompareTag("Door"))
+            {
+                switchObject.SetActive(!switchOn);   
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Pressure plate for bridge
-public class BridgeController : MonoBehaviour
+public class BridgePressurePlate : MonoBehaviour
 {
     [SerializeField] GameObject bridge; // Reference to the bridge GameObject
     [SerializeField] bool switchOn = false;
