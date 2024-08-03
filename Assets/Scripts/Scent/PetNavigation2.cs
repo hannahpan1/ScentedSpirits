@@ -28,6 +28,7 @@ public class PetNavigation2 : MonoBehaviour
     private UniqueQueue<GameObject> scentLocations;
     public float followDistance; // the distance the pet starts following the player
     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,8 +103,8 @@ public class PetNavigation2 : MonoBehaviour
                 }   
             }
         }
-        
-        // Update boolean if moving
+        Debug.Log(agent.velocity.x);
+        // Update animations if moving
         if (agent.velocity != new Vector3(0, 0, 0))
         {
             isMoving = true;
@@ -112,6 +113,16 @@ public class PetNavigation2 : MonoBehaviour
         {
             isMoving = false;
         }
+        
+        if (agent.velocity.x > 0)
+        {
+            myAnim.SetBool("Flipped",true);
+        }
+        else if(agent.velocity.x < 0)
+        {
+            myAnim.SetBool("Flipped",false);
+        }
+
     }
     
     private void OnChangeAbility(string agentType)
@@ -126,6 +137,8 @@ public class PetNavigation2 : MonoBehaviour
         }
     }
     
+    
+
     private void FollowScent()
     {
         if (scentLocations.Count != 0)

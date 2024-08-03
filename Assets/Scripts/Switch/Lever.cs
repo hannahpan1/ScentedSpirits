@@ -16,7 +16,8 @@ public class Lever : MonoBehaviour
     float speed = 5;
     float hitCooldownMax = 0.25f;
     [SerializeField] float hitCooldown;
-    
+    private bool isActivated = false; // Track if the lever has been activated
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +57,11 @@ public class Lever : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (isActivated)
+        {
+            return; // If the lever is already activated, do nothing
+        }
+
         if (hitCooldown > hitCooldownMax)
         {
             if (other.gameObject.CompareTag("rat") || other.gameObject.CompareTag("Player"))
@@ -63,6 +69,7 @@ public class Lever : MonoBehaviour
                 switchOn = !switchOn;
                 UpdateState();
                 hitCooldown = 0;
+                isActivated = true; // Mark the lever as activated
             }
         } 
         else
