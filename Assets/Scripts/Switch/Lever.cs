@@ -7,7 +7,6 @@ using UnityEngine;
 public class Lever : MonoBehaviour
 {
     [SerializeField] GameObject visualLever;
-    [SerializeField] GameObject door; // Reference to the door GameObject
     [SerializeField] GameObject switchObject; 
     [SerializeField] bool switchOn;
     [SerializeField] float yRot;
