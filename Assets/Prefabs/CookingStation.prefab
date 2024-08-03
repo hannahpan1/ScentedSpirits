@@ -366,6 +366,8 @@ MonoBehaviour:
   spicyCheese: {fileID: 0}
   cheeseCount: 4
   spicyCheeseCount: 4
+  smokeAnimation: {fileID: 0}
+  gifDuration: 2
 --- !u!114 &767041043449897175
 MonoBehaviour:
   m_ObjectHideFlags: 0
