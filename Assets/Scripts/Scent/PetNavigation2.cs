@@ -103,7 +103,6 @@ public class PetNavigation2 : MonoBehaviour
                 }   
             }
         }
-        Debug.Log(agent.velocity.x);
         // Update animations if moving
         if (agent.velocity != new Vector3(0, 0, 0))
         {
