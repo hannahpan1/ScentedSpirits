@@ -25,6 +25,28 @@ public class InventoryManager : MonoBehaviour
                 ChangeSelectedSlot(number - 1);
             }
         }
+
+        // D-pad input
+        float dpadVertical = Input.GetAxis("DPadVertical");
+        float dpadHorizontal = Input.GetAxis("DPadHorizontal");
+
+        if (dpadVertical > 0)
+        {
+            ChangeSelectedSlot(0); 
+        }
+        else if (dpadHorizontal > 0)
+        {
+            ChangeSelectedSlot(1); 
+        }
+        else if (dpadVertical < 0)
+        {
+            ChangeSelectedSlot(2); 
+        }
+        else if (dpadHorizontal < 0)
+        {
+            ChangeSelectedSlot(3); 
+        }
+
         UpdateIsHoldingCheese();
     }
 
