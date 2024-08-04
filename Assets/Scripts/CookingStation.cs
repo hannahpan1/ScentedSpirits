@@ -44,7 +44,7 @@ public class CookingStation : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         ClearThrownCheeses();
         GiveBiscuits();
-        hasTriggered = false; // Reset the flag after processing
+        hasTriggered = false; // Reset the flag
     }
 
     void OnTriggerEnter(Collider other)
