@@ -45,14 +45,14 @@ public class LowerBridge : MonoBehaviour
     {
         // Debug.DrawLine(endpoint.position, endpoint.position + Vector3.down * 1f, Color.red);
         RaycastHit hit;
-        Physics.Raycast(endpoint.position, Vector3.down, out hit, 2f, _layerMask);
+        Physics.Raycast(endpoint.position, Vector3.down, out hit, 0.2f, _layerMask);
         if (hit.collider is not null)
         {
             _bridgeRot = false;
         }
         else
         {
-            gameObject.transform.RotateAround(pivot.position, Vector3.right, degreePerSec * Time.deltaTime);
+            gameObject.transform.RotateAround(pivot.position, transform.forward, degreePerSec * Time.deltaTime);
         }
     }
 }
