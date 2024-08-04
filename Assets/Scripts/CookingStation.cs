@@ -14,6 +14,8 @@ public class CookingStation : MonoBehaviour
     public GameObject smokeAnimation;
     public float gifDuration = 2f;
 
+    private bool hasTriggered = false; // Flag to ensure single execution
+
     void Start()
     {
         if (testGroup != null)
@@ -42,12 +44,14 @@ public class CookingStation : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         ClearThrownCheeses();
         GiveBiscuits();
+        hasTriggered = false; // Reset the flag after processing
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !hasTriggered)
         {
+            hasTriggered = true; // Set the flag to prevent re-entry
             if (inventoryManager != null)
             {
                 inventoryManager.ClearInventory();
