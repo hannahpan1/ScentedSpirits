@@ -9,7 +9,6 @@ public class LowerBridge : MonoBehaviour
     [SerializeField] int degreePerSec; // Degree the bridge lowers per second, increasing will lead to faster decrease
     private LayerMask _layerMask;
     private bool _bridgeRot = false;
-    private Transform bridgeObject;
     [SerializeField] Transform pivot;
     [SerializeField] private Transform endpoint;
     
@@ -18,10 +17,9 @@ public class LowerBridge : MonoBehaviour
     {
         GameEvents.current.lowerBridge += OnLowerBridge;
         GameEvents.current.stopBridge += OnStopRotation;
-        _layerMask &= (1 << 0);
-        bridgeObject = gameObject.transform.GetChild(0);
-        pivot = bridgeObject.transform.GetChild(0);
-        endpoint = bridgeObject.transform.GetChild(1);
+        _layerMask |= (1 << 0);
+        pivot = gameObject.transform.GetChild(0);
+        endpoint = gameObject.transform.GetChild(1);
     }
 
     // Update is called once per frame
@@ -45,9 +43,9 @@ public class LowerBridge : MonoBehaviour
     
     private void RotateBridge()
     {
-        Debug.DrawLine(endpoint.position, endpoint.position + Vector3.down * 1f, Color.red);
+        // Debug.DrawLine(endpoint.position, endpoint.position + Vector3.down * 1f, Color.red);
         RaycastHit hit;
-        Physics.Raycast(endpoint.position, Vector3.down, out hit, 2f);
+        Physics.Raycast(endpoint.position, Vector3.down, out hit, 2f, _layerMask);
         if (hit.collider is not null)
         {
             _bridgeRot = false;
