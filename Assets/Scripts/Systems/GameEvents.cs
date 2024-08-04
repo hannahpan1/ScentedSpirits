@@ -32,4 +32,6 @@ public class GameEvents : MonoBehaviour
     public VectorDelegate setPetSpawn;
     public EmptyDelegate itemEaten;
     public FloatDelegate fanTriggered;
+    public EmptyDelegate lowerBridge;
+    public EmptyDelegate stopBridge;
 }

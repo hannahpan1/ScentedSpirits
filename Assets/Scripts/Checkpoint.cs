@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 public class Checkpoint : MonoBehaviour
 {
     public GameObject petSpawnPoint;
+    public GameObject cookingStation;
     private Transform spawnTransform;
     private Transform checkPointTransform;
     private Vector3 petStartingPos;
@@ -38,6 +39,7 @@ public class Checkpoint : MonoBehaviour
                     petStartingPos.y,
                     spawnTransform.position.z));
             GameEvents.current.resetPetPos?.Invoke();
+            cookingStation.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 }
