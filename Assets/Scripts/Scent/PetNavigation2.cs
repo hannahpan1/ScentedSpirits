@@ -154,7 +154,6 @@ public class PetNavigation2 : MonoBehaviour
                 {
                     OnChangeAbility("JumpAgent");
                 }
-
                 followingScent = true;
             }
         }

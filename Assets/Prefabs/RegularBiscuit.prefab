@@ -5111,10 +5111,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2580035688984836641}
   - component: {fileID: 6911893835263092006}
-  - component: {fileID: 8520783861922006631}
   - component: {fileID: -1581954158821480503}
   - component: {fileID: -8882897686907435794}
   - component: {fileID: -5442008390633456310}
+  - component: {fileID: 958889398930390460}
   m_Layer: 3
   m_Name: RegularBiscuit
   m_TagString: cheese
@@ -5162,33 +5162,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &8520783861922006631
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7924553657130119642}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!82 &-1581954158821480503
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5398,3 +5371,17 @@ MonoBehaviour:
   particleVelocity: 2
   emissionInterval: 1.5
   radius: 6
+--- !u!114 &958889398930390460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7924553657130119642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfe252304c4b5841a3f11b979d12174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {x: 0, y: 0, z: 0}
+  end: {x: 0, y: 0, z: 0}

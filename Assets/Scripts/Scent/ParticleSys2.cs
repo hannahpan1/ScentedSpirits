@@ -20,17 +20,16 @@ public class ParticleSys2 : MonoBehaviour
     private float timer = 0;
     private float timer2 = 0;
     private bool onGround = false;
-    private Rigidbody foodRb;
     private bool stopped = false;
     private bool AoE = false;
-    
+    biscuitThrow bt;
     // Start is called before the first frame update
     void Start()
     { 
+        bt = GetComponent<biscuitThrow>();
         particleObjects = new List<(GameObject, Rigidbody)>();
         layerMask &= ~(1 << 3);
         layerMask |= (1 << 0);
-        foodRb = gameObject.GetComponent<Rigidbody>();
         GameEvents.current.fanTriggered += IncreaseRadius;
     }
 
@@ -84,10 +83,7 @@ public class ParticleSys2 : MonoBehaviour
     
     private void CheckMoving()
     {
-        if (foodRb.velocity.magnitude < 0.5)
-        {
-            stopped = true;
-        }
+        stopped = bt.stopped;
     }
 
     private void SpawnParticles()
