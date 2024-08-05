@@ -57,7 +57,7 @@ public class BridgePressurePlate : MonoBehaviour
             }
             else
             {
-                GameEvents.current.stopBridge?.Invoke(bridge.GetInstanceID());
+                GameEvents.current.raiseBridge?.Invoke(bridge.GetInstanceID());
             }
         }
     }
