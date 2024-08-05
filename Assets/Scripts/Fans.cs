@@ -11,11 +11,13 @@ public class Fans : MonoBehaviour
     public Vector3 RegularBiscuitAoeScale;
     public Vector3 SpicyBiscuitAoeScale;
     private float _fanLength;
+    private int fanID;
     
     // Start is called before the first frame update
     void Start()
     {
         _fanLength = gameObject.GetComponent<BoxCollider>().size.z;
+        fanID = transform.parent.gameObject.GetInstanceID();
     }
 
     void OnTriggerEnter(Collider other)
@@ -56,8 +58,21 @@ public class Fans : MonoBehaviour
             // Change radius to box collider's length
             GameEvents.current.fanTriggered(_fanLength);
         }
+
+        if (other.CompareTag("Particle"))
+        {
+            GameEvents.current.spinPropeller?.Invoke(fanID);
+        }
     }
-    
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("cheese") || other.CompareTag("SpicyBiscuit"))
+        {
+            GameEvents.current.stopPropeller?.Invoke(fanID);
+        }
+    }
+
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Particle"))

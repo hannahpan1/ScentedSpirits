@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7497574304156855002}
   - component: {fileID: -9200219220482875217}
   - component: {fileID: 7342668757273224495}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Particle
   m_TagString: Particle
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7873130943579768839}
   - component: {fileID: 8003405555848329634}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
