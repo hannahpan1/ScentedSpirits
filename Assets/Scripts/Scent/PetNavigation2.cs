@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.InputSystem;
 using Vector3 = UnityEngine.Vector3;
 
 public class PetNavigation2 : MonoBehaviour
@@ -27,6 +28,8 @@ public class PetNavigation2 : MonoBehaviour
     public float stoppingDistance;
     private UniqueQueue<GameObject> scentLocations;
     public float followDistance; // the distance the pet starts following the player
+    private bool traversingLink = false;
+    private OffMeshLinkData _currLink;
     
 
     // Start is called before the first frame update
@@ -77,6 +80,50 @@ public class PetNavigation2 : MonoBehaviour
         {
             timer = followCoolDown;
             FollowPlayer();
+        }
+        
+        // Check if on navmesh link
+        if (followingScent && agent.isOnNavMesh)
+        {
+            if (!traversingLink)
+            {
+                // Trigger START of jump animation HERE 
+                _currLink = agent.currentOffMeshLinkData;
+                traversingLink = true;
+            }
+            
+            // UNCOMMENT WHEN SETTING UP ANIMATIONS
+            
+            // // lerp from link start to link end in time to animation
+            // var tlerp = GetComponent<Animation>()["Jump"].normalizedTime;
+            //
+            // //straight line from startlink to endlink
+            // var newPos = Vector3.Lerp(_currLink.startPos, _currLink.endPos, tlerp);
+            //
+            // // add the 'hop'
+            // newPos.y += 2f * Mathf.Sin(Mathf.PI * tlerp);
+            //
+            // //Update transform position
+            // transform.position = newPos;
+            
+            // if (!animation.isPlaying)
+            // {
+            //     //make sure the player is right on the end link
+            //     transform.position = _currLink.endPos;
+            //     traversingLink = false;
+            //     //Tell unity we have traversed the link
+            //     agent.CompleteOffMeshLink();
+            //     //Resume normal navmesh behaviour
+            //     agent.Resume();
+            // }
+            
+            // UNCOMMENT
+            
+            // REMOVE THIS WHEN ANIMATIONS ARE SET UP
+            traversingLink = false;
+            agent.CompleteOffMeshLink();
+            agent.Resume();
+            // REMOVE
         }
     }
 
@@ -154,7 +201,6 @@ public class PetNavigation2 : MonoBehaviour
                 {
                     OnChangeAbility("JumpAgent");
                 }
-
                 followingScent = true;
             }
         }
