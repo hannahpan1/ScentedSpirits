@@ -16,6 +16,7 @@ public class Throw2 : MonoBehaviour
     GameObject crosshair;
     [SerializeField] GameObject crosshairPrefab;
     Vector2 cursorPoint;
+    public Animator myAnim;
     bool controller;
     bool fireButton;
     public bool canThrow;
@@ -52,6 +53,7 @@ public class Throw2 : MonoBehaviour
         }
         if (Input.GetButtonUp("Fire1") && canThrow)
         {
+            myAnim.SetBool("Throwing", false);
             Destroy(crosshair);
             if (!Input.GetButton("CancelThrow"))
             {
@@ -63,6 +65,7 @@ public class Throw2 : MonoBehaviour
             }
         } else if (Input.GetButtonDown("Fire1") && canThrow) 
         {
+            myAnim.SetBool("Throwing", true);
             if (controller)
             {
                 cursorPoint = Camera.main.WorldToScreenPoint(transform.position);
