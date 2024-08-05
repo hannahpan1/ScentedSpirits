@@ -11,23 +11,30 @@ public class LowerBridge : MonoBehaviour
     private bool _bridgeRot = false;
     [SerializeField] Transform pivot;
     [SerializeField] private Transform endpoint;
+    private Quaternion _startingRot;
+    private bool _loweredFully = false;
     
     // Start is called before the first frame update
     void Start()
     {
         GameEvents.current.lowerBridge += OnLowerBridge;
-        GameEvents.current.stopBridge += OnStopRotation;
+        GameEvents.current.raiseBridge += OnRaiseRotation;
         _layerMask |= (1 << 0);
         pivot = gameObject.transform.GetChild(0);
         endpoint = gameObject.transform.GetChild(1);
+        _startingRot = gameObject.transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_bridgeRot)
+        if (_bridgeRot && !_loweredFully)
         {
             RotateBridge();
+        }
+        else
+        {
+            RaiseBridge();
         }
     }
 
@@ -39,7 +46,7 @@ public class LowerBridge : MonoBehaviour
         }
     }
     
-    private void OnStopRotation(int id)
+    private void OnRaiseRotation(int id)
     {
         if (gameObject.GetInstanceID() == id)
         {
@@ -54,11 +61,20 @@ public class LowerBridge : MonoBehaviour
         Physics.Raycast(endpoint.position, Vector3.down, out hit, 0.2f, _layerMask);
         if (hit.collider is not null)
         {
-            _bridgeRot = false;
+            _loweredFully = true;
         }
         else
         {
             gameObject.transform.RotateAround(pivot.position, transform.forward, degreePerSec * Time.deltaTime);
+        }
+    }
+    
+    private void RaiseBridge()
+    {
+        if (transform.rotation != _startingRot)
+        {
+            gameObject.transform.RotateAround(pivot.position, transform.forward * -1, degreePerSec * Time.deltaTime);
+            _loweredFully = false;
         }
     }
 }

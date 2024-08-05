@@ -34,7 +34,7 @@ public class GameEvents : MonoBehaviour
     public EmptyDelegate itemEaten;
     public FloatDelegate fanTriggered;
     public IntDelegate lowerBridge;
-    public IntDelegate stopBridge;
+    public IntDelegate raiseBridge;
     public IntDelegate spinPropeller;
     public IntDelegate stopPropeller;
 }
