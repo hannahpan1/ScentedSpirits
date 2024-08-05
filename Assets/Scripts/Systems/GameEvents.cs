@@ -35,4 +35,6 @@ public class GameEvents : MonoBehaviour
     public FloatDelegate fanTriggered;
     public IntDelegate lowerBridge;
     public IntDelegate stopBridge;
+    public IntDelegate spinPropeller;
+    public IntDelegate stopPropeller;
 }
