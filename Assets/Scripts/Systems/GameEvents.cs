@@ -23,7 +23,8 @@ public class GameEvents : MonoBehaviour
     public delegate void StringDelegate(string s);
     public delegate void EmptyDelegate();
     public delegate void FloatDelegate(float n);
-
+    public delegate void IntDelegate(int n);
+    
     public VectorDelegate followScent;
     public StringDelegate changeAbility;
     public EmptyDelegate gameOver;
@@ -32,6 +33,6 @@ public class GameEvents : MonoBehaviour
     public VectorDelegate setPetSpawn;
     public EmptyDelegate itemEaten;
     public FloatDelegate fanTriggered;
-    public EmptyDelegate lowerBridge;
-    public EmptyDelegate stopBridge;
+    public IntDelegate lowerBridge;
+    public IntDelegate stopBridge;
 }
