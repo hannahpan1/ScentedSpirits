@@ -31,14 +31,20 @@ public class LowerBridge : MonoBehaviour
         }
     }
 
-    private void OnLowerBridge()
+    private void OnLowerBridge(int id)
     {
-        _bridgeRot = true;
+        if (gameObject.GetInstanceID() == id)
+        {
+            _bridgeRot = true;
+        }
     }
     
-    private void OnStopRotation()
+    private void OnStopRotation(int id)
     {
-        _bridgeRot = false;
+        if (gameObject.GetInstanceID() == id)
+        {
+            _bridgeRot = false;
+        }
     }
     
     private void RotateBridge()

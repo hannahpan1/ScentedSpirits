@@ -85,11 +85,11 @@ public class Lever : MonoBehaviour
             {
                 if (switchOn)
                 {
-                    GameEvents.current.lowerBridge?.Invoke();
+                    GameEvents.current.lowerBridge?.Invoke(switchObject.GetInstanceID());
                 }
                 else
                 {
-                    GameEvents.current.stopBridge?.Invoke();
+                    GameEvents.current.stopBridge?.Invoke(switchObject.GetInstanceID());
                 }
             }
 
