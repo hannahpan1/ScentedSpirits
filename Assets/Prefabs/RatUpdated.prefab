@@ -133,7 +133,6 @@ GameObject:
   - component: {fileID: 4597621397861163695}
   - component: {fileID: 6306360884697452271}
   - component: {fileID: 3066034884004678431}
-  - component: {fileID: 8103902453836105871}
   - component: {fileID: 9099424669854945578}
   m_Layer: 0
   m_Name: RatUpdated
@@ -271,29 +270,13 @@ NavMeshAgent:
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8103902453836105871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7764068031483476368}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38a5decfaea6d4a448008b83ed68ce5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noLinksNavMesh: {fileID: 0}
-  followCoolDown: 0.5
-  myAnim: {fileID: 6163853956650261870}
-  stoppingDistance: 2
 --- !u!114 &9099424669854945578
 MonoBehaviour:
   m_ObjectHideFlags: 0
