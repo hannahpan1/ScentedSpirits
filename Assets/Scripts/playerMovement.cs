@@ -10,8 +10,8 @@ public class playerMovement : MonoBehaviour
 {
     Rigidbody rb;
     CapsuleCollider col;
-    float speed = 35;
-    float topSpeed = 5;
+    float speed = 50;
+    float topSpeed = 6;
     float rotationGoal;
     float currentRotation;
     public float jumpStrength = 10f; // Increased jump strength
