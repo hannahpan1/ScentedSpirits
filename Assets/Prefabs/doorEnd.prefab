@@ -49,10 +49,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorEndDog: {fileID: 4968148211510218876}
   doorEndChef: {fileID: 904628875957959607}
+  defaultDogDoor: {fileID: 2100000, guid: 70f248a6fa0296d4e9b8daa0b3fb25ea, type: 2}
+  defaultChefDoor: {fileID: 2100000, guid: f672795895a421f44a4082a49e4872b6, type: 2}
   activeDogDoor: {fileID: 2100000, guid: bffe82b7baee6354fb37b1ad64ccd46e, type: 2}
   activeChefDoor: {fileID: 2100000, guid: 64afa3fcef854a744934e5da73177bdf, type: 2}
   rotationAngle: 90
   rotationDuration: 1
+  isFinalLevel: 0
+  useSceneIndex: 1
+  specificSceneIndex: 0
+  specificSceneName: 
 --- !u!65 &866225849319239970
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72,8 +78,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7, y: 6.2, z: 1}
-  m_Center: {x: -0.75, y: -2, z: 3}
+  m_Size: {x: 7, y: 6.2, z: 2}
+  m_Center: {x: -0.75, y: -2, z: 3.1}
 --- !u!1001 &21544907009541862
 PrefabInstance:
   m_ObjectHideFlags: 0
