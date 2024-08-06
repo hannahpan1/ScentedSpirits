@@ -9,15 +9,21 @@ public class BridgePressurePlate : MonoBehaviour
     [SerializeField] GameObject bridge; // Reference to the bridge GameObject
     [SerializeField] bool switchOn = false;
     private Renderer _renderer;
-    public Color switchOnColor;
-    private Color defaultColor;
+    public Material switchOnMaterial;
+    public float pressedAmount = 2; // How far the pressure plate sinks
+    private Material defaultMaterial;
     private int numOnPlate;
+    private Vector3 startingPos;
+    private GameObject visualPlate;
 
     // Start is called before the first frame update
     void Start()
     {
-        _renderer = gameObject.GetComponent<Renderer>();
-        defaultColor = _renderer.material.color;
+        // Right now pressure plate's renderer is in child component
+        visualPlate = transform.parent.gameObject;
+        _renderer = transform.parent.GetChild(0).gameObject.GetComponent<Renderer>();
+        defaultMaterial = _renderer.material;
+        startingPos = transform.position;
         UpdateBridgeState();
     }
 
@@ -45,7 +51,14 @@ public class BridgePressurePlate : MonoBehaviour
     {
         if (bridge is not null)
         {
-            bridge.SetActive(switchOn);
+            if (switchOn)
+            {
+                GameEvents.current.lowerBridge?.Invoke(bridge.GetInstanceID());
+            }
+            else
+            {
+                GameEvents.current.raiseBridge?.Invoke(bridge.GetInstanceID());
+            }
         }
     }
     
@@ -53,12 +66,21 @@ public class BridgePressurePlate : MonoBehaviour
     {
         if (numOnPlate >= 1)
         {
-            _renderer.material.SetColor("_Color", switchOnColor);
+            _renderer.material = switchOnMaterial;
+            
+            // Move pressure plate down
+            if (transform.position == startingPos)
+            {
+                Vector3 updatedPos = gameObject.transform.position;
+                updatedPos.y -= pressedAmount;
+                visualPlate.transform.position = updatedPos;
+            }
             switchOn = true;
         }
         else
         {
-            _renderer.material.SetColor("_Color", defaultColor);
+            _renderer.material = defaultMaterial;
+            visualPlate.transform.position = startingPos;
             switchOn = false;
         }
     }

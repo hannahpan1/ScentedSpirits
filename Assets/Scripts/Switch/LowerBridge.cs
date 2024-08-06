@@ -9,52 +9,72 @@ public class LowerBridge : MonoBehaviour
     [SerializeField] int degreePerSec; // Degree the bridge lowers per second, increasing will lead to faster decrease
     private LayerMask _layerMask;
     private bool _bridgeRot = false;
-    private Transform bridgeObject;
     [SerializeField] Transform pivot;
     [SerializeField] private Transform endpoint;
+    private Quaternion _startingRot;
+    private bool _loweredFully = false;
     
     // Start is called before the first frame update
     void Start()
     {
         GameEvents.current.lowerBridge += OnLowerBridge;
-        GameEvents.current.stopBridge += OnStopRotation;
-        _layerMask &= (1 << 0);
-        bridgeObject = gameObject.transform.GetChild(0);
-        pivot = bridgeObject.transform.GetChild(0);
-        endpoint = bridgeObject.transform.GetChild(1);
+        GameEvents.current.raiseBridge += OnRaiseRotation;
+        _layerMask |= (1 << 0);
+        pivot = gameObject.transform.GetChild(0);
+        endpoint = gameObject.transform.GetChild(1);
+        _startingRot = gameObject.transform.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_bridgeRot)
+        if (_bridgeRot && !_loweredFully)
         {
             RotateBridge();
         }
+        else
+        {
+            RaiseBridge();
+        }
     }
 
-    private void OnLowerBridge()
+    private void OnLowerBridge(int id)
     {
-        _bridgeRot = true;
+        if (gameObject.GetInstanceID() == id)
+        {
+            _bridgeRot = true;
+        }
     }
     
-    private void OnStopRotation()
+    private void OnRaiseRotation(int id)
     {
-        _bridgeRot = false;
+        if (gameObject.GetInstanceID() == id)
+        {
+            _bridgeRot = false;
+        }
     }
     
     private void RotateBridge()
     {
-        Debug.DrawLine(endpoint.position, endpoint.position + Vector3.down * 1f, Color.red);
+        // Debug.DrawLine(endpoint.position, endpoint.position + Vector3.down * 1f, Color.red);
         RaycastHit hit;
-        Physics.Raycast(endpoint.position, Vector3.down, out hit, 2f);
+        Physics.Raycast(endpoint.position, Vector3.down, out hit, 0.2f, _layerMask);
         if (hit.collider is not null)
         {
-            _bridgeRot = false;
+            _loweredFully = true;
         }
         else
         {
-            gameObject.transform.RotateAround(pivot.position, Vector3.right, degreePerSec * Time.deltaTime);
+            gameObject.transform.RotateAround(pivot.position, transform.forward, degreePerSec * Time.deltaTime);
+        }
+    }
+    
+    private void RaiseBridge()
+    {
+        if (transform.rotation != _startingRot)
+        {
+            gameObject.transform.RotateAround(pivot.position, transform.forward * -1, degreePerSec * Time.deltaTime);
+            _loweredFully = false;
         }
     }
 }
