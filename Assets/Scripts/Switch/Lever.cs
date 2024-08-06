@@ -16,6 +16,8 @@ public class Lever : MonoBehaviour
     float hitCooldownMax = 0.25f;
     [SerializeField] float hitCooldown;
     private bool isActivated = false; // Track if the lever has been activated
+    private AudioSource _audioSource;
+    public AudioClip pullLeverSound;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,7 @@ public class Lever : MonoBehaviour
             transform.localEulerAngles = new Vector3(-rotationRange, yRot, 0);
         }
 
+        _audioSource = GetComponent<AudioSource>();
         switchOn = false;
         UpdateState(); // Ensure object state is correct at start
     }
@@ -66,6 +69,8 @@ public class Lever : MonoBehaviour
             if (other.gameObject.CompareTag("rat") || other.gameObject.CompareTag("Player"))
             {
                 switchOn = !switchOn;
+                _audioSource.clip = pullLeverSound;
+                _audioSource.Play();
                 UpdateState();
                 hitCooldown = 0;
                 isActivated = true; // Mark the lever as activated
