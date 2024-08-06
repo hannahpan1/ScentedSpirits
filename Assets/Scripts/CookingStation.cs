@@ -15,6 +15,8 @@ public class CookingStation : MonoBehaviour
     public float gifDuration = 2f;
 
     private bool hasTriggered = false; // Flag to ensure single execution
+    private AudioSource _audioSource;
+    public AudioClip addBiscuitsSound;
 
     void Start()
     {
@@ -32,6 +34,8 @@ public class CookingStation : MonoBehaviour
         {
             inventoryManager.ClearInventory();
         }
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void StartDelay()
@@ -100,6 +104,9 @@ public class CookingStation : MonoBehaviour
         {
             inventoryManager.AddItem(spicyCheese);
         }
+
+        _audioSource.clip = addBiscuitsSound;
+        _audioSource.Play();
     }
 
     private void ShowSmokeAnimation()
