@@ -185,7 +185,7 @@ public class PetNavigation2 : MonoBehaviour
 
     private void FollowScent()
     {
-        if (scentLocations.Count != 0 && AgentArrived())
+        if (scentLocations.Count != 0)
         {
             agent.isStopped = false;
             agent.stoppingDistance = 0f;
@@ -216,11 +216,8 @@ public class PetNavigation2 : MonoBehaviour
     
     private void OnResetPetPos()
     {
+        agent.Warp(spawnLocation);
         agent.ResetPath();
-        agent.isStopped = true;
-        gameObject.SetActive(false);
-        gameObject.transform.position = spawnLocation;
-        gameObject.SetActive(true);
         followingScent = false;
     }
 
@@ -232,8 +229,4 @@ public class PetNavigation2 : MonoBehaviour
         }
     }
     
-    private bool AgentArrived()
-    {
-        return !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
-    }
 }
