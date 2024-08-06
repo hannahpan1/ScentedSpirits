@@ -14,7 +14,7 @@ public class CombinedDoorWinScript : MonoBehaviour
     [SerializeField] private float rotationAngle = 90f; // Angle to rotate the doors
     [SerializeField] private float rotationDuration = 1.0f; // Duration of the rotation
     public bool isFinalLevel = false;
-    public bool useSceneIndex = true;
+    public bool useSceneIndex = false;
     public int specificSceneIndex;
     public string specificSceneName;
 
