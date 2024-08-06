@@ -185,20 +185,20 @@ public class PetNavigation2 : MonoBehaviour
 
     private void FollowScent()
     {
-        if (scentLocations.Count != 0)
+        if (scentLocations.Count != 0 && AgentArrived())
         {
+            agent.isStopped = false;
             agent.stoppingDistance = 0f;
             GameObject scentItem = scentLocations.Dequeue();
             if (scentItem??false)
             {
                 Vector3 scentLocation = scentItem.transform.position;
-                agent.SetDestination(scentLocation);
-            
                 // Change the ability of the dog based on the scent it's following
                 if (scentItem.CompareTag("SpicyBiscuit"))
                 {
                     OnChangeAbility("JumpAgent");
                 }
+                agent.SetDestination(scentLocation);
                 followingScent = true;
             }
         }
@@ -217,6 +217,7 @@ public class PetNavigation2 : MonoBehaviour
     private void OnResetPetPos()
     {
         agent.ResetPath();
+        agent.isStopped = true;
         gameObject.SetActive(false);
         gameObject.transform.position = spawnLocation;
         gameObject.SetActive(true);
@@ -229,5 +230,10 @@ public class PetNavigation2 : MonoBehaviour
         {
             scentLocations.Enqueue(other.transform.parent.gameObject);
         }
+    }
+    
+    private bool AgentArrived()
+    {
+        return !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance;
     }
 }
