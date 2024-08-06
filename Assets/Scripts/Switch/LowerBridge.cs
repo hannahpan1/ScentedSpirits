@@ -13,6 +13,8 @@ public class LowerBridge : MonoBehaviour
     [SerializeField] private Transform endpoint;
     private Quaternion _startingRot;
     private bool _loweredFully = false;
+    public GameObject barrier;
+    public GameObject barrier2;
     
     // Start is called before the first frame update
     void Start()
@@ -67,6 +69,12 @@ public class LowerBridge : MonoBehaviour
         {
             gameObject.transform.RotateAround(pivot.position, transform.forward, degreePerSec * Time.deltaTime);
         }
+
+        if (_loweredFully && barrier is not null && barrier2 is not null)
+        {
+            barrier.SetActive(false);
+            barrier2.SetActive(false);
+        }
     }
     
     private void RaiseBridge()
@@ -75,6 +83,12 @@ public class LowerBridge : MonoBehaviour
         {
             gameObject.transform.RotateAround(pivot.position, transform.forward * -1, degreePerSec * Time.deltaTime);
             _loweredFully = false;
+        }
+
+        if (!_loweredFully && barrier is not null && barrier2 is not null)
+        {
+            barrier.SetActive(true);
+            barrier2.SetActive(true);
         }
     }
 }
