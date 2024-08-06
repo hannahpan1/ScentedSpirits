@@ -30,6 +30,9 @@ public class PetNavigation2 : MonoBehaviour
     public float followDistance; // the distance the pet starts following the player
     private bool traversingLink = false;
     private OffMeshLinkData _currLink;
+    public float jumpTime = 1;
+    private float jumpTimer = 0;
+    private float jumpInterval;
     
 
     // Start is called before the first frame update
@@ -81,49 +84,44 @@ public class PetNavigation2 : MonoBehaviour
             timer = followCoolDown;
             FollowPlayer();
         }
-        
+
         // Check if on navmesh link
-        if (followingScent && agent.isOnNavMesh)
+        if (followingScent && agent.isOnOffMeshLink)
         {
             if (!traversingLink)
             {
-                // Trigger START of jump animation HERE 
+                myAnim.SetTrigger("Jump");
                 _currLink = agent.currentOffMeshLinkData;
                 traversingLink = true;
+                jumpInterval = 0;
             }
-            
+
             // UNCOMMENT WHEN SETTING UP ANIMATIONS
-            
-            // // lerp from link start to link end in time to animation
-            // var tlerp = GetComponent<Animation>()["Jump"].normalizedTime;
-            //
-            // //straight line from startlink to endlink
-            // var newPos = Vector3.Lerp(_currLink.startPos, _currLink.endPos, tlerp);
-            //
-            // // add the 'hop'
-            // newPos.y += 2f * Mathf.Sin(Mathf.PI * tlerp);
-            //
-            // //Update transform position
-            // transform.position = newPos;
-            
-            // if (!animation.isPlaying)
-            // {
-            //     //make sure the player is right on the end link
-            //     transform.position = _currLink.endPos;
-            //     traversingLink = false;
-            //     //Tell unity we have traversed the link
-            //     agent.CompleteOffMeshLink();
-            //     //Resume normal navmesh behaviour
-            //     agent.Resume();
-            // }
-            
-            // UNCOMMENT
-            
-            // REMOVE THIS WHEN ANIMATIONS ARE SET UP
-            traversingLink = false;
-            agent.CompleteOffMeshLink();
-            agent.Resume();
-            // REMOVE
+            jumpTimer += Time.deltaTime;
+
+            //straight line from startlink to endlink
+            jumpInterval += Time.deltaTime / jumpTime;
+            var newPos = Vector3.Lerp(_currLink.startPos, _currLink.endPos, jumpInterval);
+
+            // add the 'hop'
+            newPos.y += 1f * Mathf.Sin(Mathf.PI * jumpInterval);
+
+            //Update transform position
+            transform.position = newPos;
+
+            if (jumpTimer >= jumpTime)
+            {
+                jumpTimer = 0;
+                //make sure the player is right on the end link
+                transform.position = _currLink.endPos;
+                traversingLink = false;
+                //Tell unity we have traversed the link
+                agent.CompleteOffMeshLink();
+                //Reset animation trigger
+                myAnim.ResetTrigger("Jump");
+                //Resume normal navmesh behaviour
+                agent.isStopped = false;
+            }
         }
     }
 
@@ -189,18 +187,18 @@ public class PetNavigation2 : MonoBehaviour
     {
         if (scentLocations.Count != 0)
         {
+            agent.isStopped = false;
             agent.stoppingDistance = 0f;
             GameObject scentItem = scentLocations.Dequeue();
             if (scentItem??false)
             {
                 Vector3 scentLocation = scentItem.transform.position;
-                agent.SetDestination(scentLocation);
-            
                 // Change the ability of the dog based on the scent it's following
                 if (scentItem.CompareTag("SpicyBiscuit"))
                 {
                     OnChangeAbility("JumpAgent");
                 }
+                agent.SetDestination(scentLocation);
                 followingScent = true;
             }
         }
@@ -218,10 +216,8 @@ public class PetNavigation2 : MonoBehaviour
     
     private void OnResetPetPos()
     {
+        agent.Warp(spawnLocation);
         agent.ResetPath();
-        gameObject.SetActive(false);
-        gameObject.transform.position = spawnLocation;
-        gameObject.SetActive(true);
         followingScent = false;
     }
 
@@ -232,4 +228,5 @@ public class PetNavigation2 : MonoBehaviour
             scentLocations.Enqueue(other.transform.parent.gameObject);
         }
     }
+    
 }
