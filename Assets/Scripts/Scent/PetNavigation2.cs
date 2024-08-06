@@ -30,6 +30,9 @@ public class PetNavigation2 : MonoBehaviour
     public float followDistance; // the distance the pet starts following the player
     private bool traversingLink = false;
     private OffMeshLinkData _currLink;
+    public float jumpTime = 1;
+    private float jumpTimer = 0;
+    private float jumpInterval;
     
 
     // Start is called before the first frame update
@@ -83,48 +86,43 @@ public class PetNavigation2 : MonoBehaviour
         }
 
         // Check if on navmesh link
-        if (followingScent && agent.isOnNavMesh)
+        if (followingScent && agent.isOnOffMeshLink)
         {
             if (!traversingLink)
             {
-                // Trigger START of jump animation HERE 
+                myAnim.SetTrigger("Jump");
                 _currLink = agent.currentOffMeshLinkData;
                 traversingLink = true;
+                jumpInterval = 0;
             }
 
-        // UNCOMMENT WHEN SETTING UP ANIMATIONS
+            // UNCOMMENT WHEN SETTING UP ANIMATIONS
+            jumpTimer += Time.deltaTime;
 
-        // // lerp from link start to link end in time to animation
-        // var tlerp = GetComponent<Animation>()["Jump"].normalizedTime;
-        //
-        // //straight line from startlink to endlink
-        // var newPos = Vector3.Lerp(_currLink.startPos, _currLink.endPos, tlerp);
-        //
-        // // add the 'hop'
-        // newPos.y += 2f * Mathf.Sin(Mathf.PI * tlerp);
-        //
-        // //Update transform position
-        // transform.position = newPos;
+            //straight line from startlink to endlink
+            jumpInterval += Time.deltaTime / jumpTime;
+            var newPos = Vector3.Lerp(_currLink.startPos, _currLink.endPos, jumpInterval);
 
-        // if (!animation.isPlaying)
-        // {
-        //     //make sure the player is right on the end link
-        //     transform.position = _currLink.endPos;
-        //     traversingLink = false;
-        //     //Tell unity we have traversed the link
-        //     agent.CompleteOffMeshLink();
-        //     //Resume normal navmesh behaviour
-        //     agent.Resume();
-        // }
+            // add the 'hop'
+            newPos.y += 1f * Mathf.Sin(Mathf.PI * jumpInterval);
 
-        // UNCOMMENT
+            //Update transform position
+            transform.position = newPos;
 
-        // REMOVE THIS WHEN ANIMATIONS ARE SET UP
-        //traversingLink = false;
-        //agent.CompleteOffMeshLink();
-        //agent.Resume();
-        // REMOVE
-          }
+            if (jumpTimer >= jumpTime)
+            {
+                jumpTimer = 0;
+                //make sure the player is right on the end link
+                transform.position = _currLink.endPos;
+                traversingLink = false;
+                //Tell unity we have traversed the link
+                agent.CompleteOffMeshLink();
+                //Reset animation trigger
+                myAnim.ResetTrigger("Jump");
+                //Resume normal navmesh behaviour
+                agent.isStopped = false;
+            }
+        }
     }
 
     private void FollowPlayer()
