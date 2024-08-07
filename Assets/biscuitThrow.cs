@@ -15,6 +15,10 @@ public class biscuitThrow : MonoBehaviour
     GameObject odore;
     BoxCollider col;
     LayerMask jumpMask;
+
+    public AudioSource audioSource1;
+    public AudioClip biscuitLanding;
+    private bool playAudioOnce = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -66,7 +70,13 @@ public class biscuitThrow : MonoBehaviour
                         }
                     }
                 }*/
-
+                if (!playAudioOnce)
+                {
+                    audioSource1.clip = biscuitLanding;
+                    audioSource1.Play();
+                    playAudioOnce = true;
+                }
+                
                 if ((transform.position - odore.transform.position).magnitude < 1)
                 {
                     Destroy(this.gameObject);
