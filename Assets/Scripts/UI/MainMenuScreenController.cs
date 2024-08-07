@@ -48,6 +48,9 @@ public class MainMenuScreenController : MonoBehaviour
     {
         isPaused = true;
         Time.timeScale = 0f;
+        masterAudio.Pause();
+        audioSource1.clip = menuMusic;
+        audioSource1.Play();
         OpenMainMenu();
     }
 
@@ -60,9 +63,6 @@ public class MainMenuScreenController : MonoBehaviour
 
     private void OpenMainMenu()
     {
-        masterAudio.Pause();
-        audioSource1.clip = menuMusic;
-        audioSource1.Play();
         inventoryUI.SetActive(false);
         _mainMenuCanvas.SetActive(true);
         _settingsMenuCanvas.SetActive(false);
