@@ -8,7 +8,6 @@ public class Throw2 : MonoBehaviour
 {
     
     Camera camera;
-
     LayerMask layerMask;
     private InventoryManager inventoryManager;
     public AudioClip throwSound;
@@ -26,6 +25,7 @@ public class Throw2 : MonoBehaviour
     {
         sources = GetComponents<AudioSource>();
         inventoryManager = FindObjectOfType<InventoryManager>();
+        Debug.Log("found: " + inventoryManager.name);
         camera = Camera.main;
         layerMask &= ~(1 << 3);
         layerMask |= (1 << 0);
@@ -131,13 +131,11 @@ public class Throw2 : MonoBehaviour
             inventoryManager.GetSelectedItem(true);
             Debug.DrawRay(hit.point, Vector3.up, Color.magenta, 2f);
             GameObject gameObject;
-            Rigidbody rb;
+            biscuitThrow bt;
             gameObject = Instantiate(throwablePrefab, transform.position, Quaternion.identity);
-            rb = gameObject.GetComponent<Rigidbody>();
-            rb.position = transform.position - ((transform.position - raypoint).normalized * 1);
-            rb.position = new Vector3(rb.position.x, transform.position.y, rb.position.z);
-            throwDistance = (rb.position - hit.point).magnitude;
-            rb.velocity = launchVector(rb.position, hit.point, rb);
+            bt = gameObject.GetComponent<biscuitThrow>();
+            bt.start = transform.position - ((transform.position - raypoint).normalized * 1);
+            bt.end = hit.point;
             
             // Item is thrown, used for pet navigation
             //GameEvents.current.itemThrown?.Invoke();
