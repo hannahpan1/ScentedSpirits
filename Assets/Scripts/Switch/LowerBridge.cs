@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,8 +13,8 @@ public class LowerBridge : MonoBehaviour
     [SerializeField] private Transform endpoint;
     private Quaternion _startingRot;
     private bool _loweredFully = false;
-    public GameObject barrier;
-    public GameObject barrier2;
+    [CanBeNull] public GameObject barrier;
+    [CanBeNull] public GameObject barrier2;
 
     // Tolerance for checking rotation stability
     public const float RotationTolerance = 0.1f;
@@ -63,8 +64,8 @@ public class LowerBridge : MonoBehaviour
         if (Physics.Raycast(endpoint.position, Vector3.down, out RaycastHit hit, RaycastDistance, _layerMask))
         {
             _loweredFully = true;
-            if (barrier != null) barrier.SetActive(false);
-            if (barrier2 != null) barrier2.SetActive(false);
+            if (barrier is not null) barrier.SetActive(false);
+            if (barrier2 is not null) barrier2.SetActive(false);
         }
         else
         {
@@ -81,9 +82,9 @@ public class LowerBridge : MonoBehaviour
         else
         {
             _loweredFully = false;
-            if (barrier != null) barrier.SetActive(true);
-            if (barrier2 != null) barrier2.SetActive(true);
         }
+        if (barrier is not null) barrier.SetActive(true);
+        if (barrier2 is not null) barrier2.SetActive(true);
     }
 
     private bool IsRotationCloseTo(Quaternion targetRotation, float tolerance)
