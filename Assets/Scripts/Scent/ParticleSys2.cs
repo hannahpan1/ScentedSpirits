@@ -77,8 +77,9 @@ public class ParticleSys2 : MonoBehaviour
         Physics.Raycast(gameObject.transform.position, Vector3.down, out hit, 1f, layerMask);
         if (hit.collider != null)
         {
-            onGround = true;
+            
         }
+        onGround = bt.stopped;
     }
     
     private void CheckMoving()

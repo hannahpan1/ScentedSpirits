@@ -37,22 +37,40 @@ public class biscuitThrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.Lerp(start, end, Mathf.Min(lerpPos / lerpLength, 1));
-        lerpPos += Time.deltaTime;
+        
         if (lerpPos > lerpLength)
         {
-            stopped  = true;
+            stopped = true;
+        } else
+        {
+            transform.position = Vector3.Lerp(start, end, Mathf.Min(lerpPos / lerpLength, 1));
+            lerpPos += Time.deltaTime;
         }
         if (stopped)
         {
-            if (!groundCol())
+            if (!GetComponent<Rigidbody>())
             {
-                transform.position += Vector3.down * Time.deltaTime;
-            }
+                Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
+                //rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+                rb.constraints = RigidbodyConstraints.FreezeRotation;
+                /*Collider[] colliders = Physics.OverlapSphere(transform.position, 0.5f);
+                foreach (Collider collider in colliders)
+                {
+                    if (collider.gameObject != this.gameObject)
+                    {
+                        RaycastHit hit;
+                        if (Physics.Raycast(transform.position, (collider.transform.position - transform.position).normalized, out hit))
+                        {
+                            Vector3 direction = (transform.position - hit.point).normalized;
+                            rb.AddForce(direction * 10f, ForceMode.Impulse);
+                        }
+                    }
+                }*/
 
-            if ((transform.position-odore.transform.position).magnitude < 1)
-            {
-                Destroy(this.gameObject);
+                if ((transform.position - odore.transform.position).magnitude < 1)
+                {
+                    Destroy(this.gameObject);
+                }
             }
         }
     }
