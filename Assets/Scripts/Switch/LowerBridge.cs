@@ -64,8 +64,8 @@ public class LowerBridge : MonoBehaviour
         if (Physics.Raycast(endpoint.position, Vector3.down, out RaycastHit hit, RaycastDistance, _layerMask))
         {
             _loweredFully = true;
-            if (barrier != null) barrier.SetActive(false);
-            if (barrier2 != null) barrier2.SetActive(false);
+            if (barrier is not null) barrier.SetActive(false);
+            if (barrier2 is not null) barrier2.SetActive(false);
         }
         else
         {
@@ -83,8 +83,8 @@ public class LowerBridge : MonoBehaviour
         {
             _loweredFully = false;
         }
-        if (barrier != null) barrier.SetActive(true);
-        if (barrier2 != null) barrier2.SetActive(true);
+        if (barrier is not null) barrier.SetActive(true);
+        if (barrier2 is not null) barrier2.SetActive(true);
     }
 
     private bool IsRotationCloseTo(Quaternion targetRotation, float tolerance)
