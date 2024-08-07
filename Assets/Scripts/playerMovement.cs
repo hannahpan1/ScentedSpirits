@@ -111,7 +111,15 @@ public class playerMovement : MonoBehaviour
             rb.AddForce(moveDirection * speed * stickRadius * 0.2f * Time.deltaTime, ForceMode.Acceleration);
         }
 
-
+        if(moveDirection.x == 0)
+        {
+            rb.AddForce(new Vector3(-4*rb.velocity.x, 0, 0)); 
+        }
+       
+        if (moveDirection.z == 0)
+        {
+            rb.AddForce(new Vector3(0,0,-4*rb.velocity.z));
+        }
         //Apply custom gravity
         //if (!Physics.Raycast(transform.position, Vector3.down, col.bounds.extents.y + 0.1f))
         //{
@@ -196,7 +204,7 @@ public class playerMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.gameObject.tag);
+       
         if (other.gameObject.tag == "Lever")
         {
             myAnim.SetTrigger("Lever");
