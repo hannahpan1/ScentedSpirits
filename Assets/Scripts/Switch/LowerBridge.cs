@@ -81,9 +81,9 @@ public class LowerBridge : MonoBehaviour
         else
         {
             _loweredFully = false;
-            if (barrier != null) barrier.SetActive(true);
-            if (barrier2 != null) barrier2.SetActive(true);
         }
+        if (barrier != null) barrier.SetActive(true);
+        if (barrier2 != null) barrier2.SetActive(true);
     }
 
     private bool IsRotationCloseTo(Quaternion targetRotation, float tolerance)
