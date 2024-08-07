@@ -37,4 +37,6 @@ public class GameEvents : MonoBehaviour
     public IntDelegate raiseBridge;
     public IntDelegate spinPropeller;
     public IntDelegate stopPropeller;
+    public IntDelegate dogOnBridge;
+    public IntDelegate emptyBridge;
 }

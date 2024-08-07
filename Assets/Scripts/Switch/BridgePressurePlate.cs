@@ -16,6 +16,7 @@ public class BridgePressurePlate : MonoBehaviour
     private Vector3 startingPos;
     private GameObject visualPlate;
     private AudioSource _audioSource;
+    private bool _stop = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,8 @@ public class BridgePressurePlate : MonoBehaviour
         defaultMaterial = _renderer.material;
         startingPos = transform.position;
         _audioSource = GetComponent<AudioSource>();
+        GameEvents.current.dogOnBridge += stopBridge;
+        GameEvents.current.emptyBridge += resumeBridge;
         UpdateBridgeState();
     }
 
@@ -60,7 +63,10 @@ public class BridgePressurePlate : MonoBehaviour
             }
             else
             {
-                GameEvents.current.raiseBridge?.Invoke(bridge.GetInstanceID());
+                if (!_stop)
+                {
+                    GameEvents.current.raiseBridge?.Invoke(bridge.GetInstanceID());   
+                }
             }
         }
     }
@@ -86,6 +92,22 @@ public class BridgePressurePlate : MonoBehaviour
             _renderer.material = defaultMaterial;
             visualPlate.transform.position = startingPos;
             switchOn = false;
+        }
+    }
+
+    private void stopBridge(int id)
+    {
+        if (bridge.GetInstanceID() == id)
+        {
+            _stop = true;
+        }
+    }
+    
+    private void resumeBridge(int id)
+    {
+        if (bridge.GetInstanceID() == id)
+        {
+            _stop = false;
         }
     }
 }

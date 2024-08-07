@@ -227,6 +227,18 @@ public class PetNavigation2 : MonoBehaviour
         {
             scentLocations.Enqueue(other.transform.parent.gameObject);
         }
+        
+        if (other.gameObject.CompareTag("Bridge"))
+        {
+            GameEvents.current.dogOnBridge?.Invoke(other.gameObject.GetInstanceID());
+        }
     }
-    
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Bridge"))
+        {
+            GameEvents.current.emptyBridge?.Invoke(other.gameObject.GetInstanceID());
+        }
+    }
 }
