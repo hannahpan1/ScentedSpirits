@@ -10,7 +10,7 @@ public class playerMovement : MonoBehaviour
 {
     Rigidbody rb;
     CapsuleCollider col;
-    float speed = 2000;
+    float speed = 5000;
     float topSpeed = 8;
     float rotationGoal;
     float currentRotation;
@@ -104,11 +104,11 @@ public class playerMovement : MonoBehaviour
 
         if (!groundCol())
         {
-            rb.AddForce(moveDirection * speed * stickRadius *Time.deltaTime, ForceMode.Acceleration);
+            rb.AddForce(moveDirection * speed * stickRadius *Time.deltaTime);
         }
         else
         {
-            rb.AddForce(moveDirection * speed * stickRadius * 0.2f * Time.deltaTime, ForceMode.Acceleration);
+            rb.AddForce(moveDirection * speed * stickRadius * 0.2f * Time.deltaTime);
         }
 
         if(moveDirection.x == 0)
