@@ -82,6 +82,7 @@ public class BridgePressurePlate : MonoBehaviour
         }
         else
         {
+            _audioSource.Play();
             _renderer.material = defaultMaterial;
             visualPlate.transform.position = startingPos;
             switchOn = false;
