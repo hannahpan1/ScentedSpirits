@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,8 +13,8 @@ public class LowerBridge : MonoBehaviour
     [SerializeField] private Transform endpoint;
     private Quaternion _startingRot;
     private bool _loweredFully = false;
-    public GameObject barrier;
-    public GameObject barrier2;
+    [CanBeNull] public GameObject barrier;
+    [CanBeNull] public GameObject barrier2;
 
     // Tolerance for checking rotation stability
     public const float RotationTolerance = 0.1f;
