@@ -5,36 +5,38 @@ using UnityEngine.UIElements;
 
 public class LowerBridge : MonoBehaviour
 {
-    // Bridge specific attributes
-    [SerializeField] int degreePerSec; // Degree the bridge lowers per second, increasing will lead to faster decrease
+    [SerializeField] private int degreePerSec; // Degree the bridge lowers per second
     private LayerMask _layerMask;
     private bool _bridgeRot = false;
-    [SerializeField] Transform pivot;
+    [SerializeField] private Transform pivot;
     [SerializeField] private Transform endpoint;
     private Quaternion _startingRot;
     private bool _loweredFully = false;
     public GameObject barrier;
     public GameObject barrier2;
-    
-    // Start is called before the first frame update
+
+    // Tolerance for checking rotation stability
+    public const float RotationTolerance = 0.1f;
+    // Distance for raycasting to detect the ground
+    public const float RaycastDistance = 0.2f;
+
     void Start()
     {
         GameEvents.current.lowerBridge += OnLowerBridge;
         GameEvents.current.raiseBridge += OnRaiseRotation;
-        _layerMask |= (1 << 0);
-        pivot = gameObject.transform.GetChild(0);
-        endpoint = gameObject.transform.GetChild(1);
-        _startingRot = gameObject.transform.rotation;
+        _layerMask = LayerMask.GetMask("Default"); // Adjust layer as needed
+        if (pivot == null) pivot = transform.GetChild(0);
+        if (endpoint == null) endpoint = transform.GetChild(1);
+        _startingRot = transform.rotation;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_bridgeRot && !_loweredFully)
         {
             RotateBridge();
         }
-        else
+        else if (!_bridgeRot)
         {
             RaiseBridge();
         }
@@ -47,7 +49,7 @@ public class LowerBridge : MonoBehaviour
             _bridgeRot = true;
         }
     }
-    
+
     private void OnRaiseRotation(int id)
     {
         if (gameObject.GetInstanceID() == id)
@@ -55,40 +57,37 @@ public class LowerBridge : MonoBehaviour
             _bridgeRot = false;
         }
     }
-    
+
     private void RotateBridge()
     {
-        // Debug.DrawLine(endpoint.position, endpoint.position + Vector3.down * 1f, Color.red);
-        RaycastHit hit;
-        Physics.Raycast(endpoint.position, Vector3.down, out hit, 0.2f, _layerMask);
-        if (hit.collider is not null)
+        if (Physics.Raycast(endpoint.position, Vector3.down, out RaycastHit hit, RaycastDistance, _layerMask))
         {
             _loweredFully = true;
+            if (barrier != null) barrier.SetActive(false);
+            if (barrier2 != null) barrier2.SetActive(false);
         }
         else
         {
-            gameObject.transform.RotateAround(pivot.position, transform.forward, degreePerSec * Time.deltaTime);
-        }
-
-        if (_loweredFully && barrier is not null && barrier2 is not null)
-        {
-            barrier.SetActive(false);
-            barrier2.SetActive(false);
+            transform.RotateAround(pivot.position, transform.forward, degreePerSec * Time.deltaTime);
         }
     }
-    
+
     private void RaiseBridge()
     {
-        if (transform.rotation != _startingRot)
+        if (!IsRotationCloseTo(_startingRot, RotationTolerance))
         {
-            gameObject.transform.RotateAround(pivot.position, transform.forward * -1, degreePerSec * Time.deltaTime);
+            transform.RotateAround(pivot.position, -transform.forward, degreePerSec * Time.deltaTime);
+        }
+        else
+        {
             _loweredFully = false;
+            if (barrier != null) barrier.SetActive(true);
+            if (barrier2 != null) barrier2.SetActive(true);
         }
+    }
 
-        if (!_loweredFully && barrier is not null && barrier2 is not null)
-        {
-            barrier.SetActive(true);
-            barrier2.SetActive(true);
-        }
+    private bool IsRotationCloseTo(Quaternion targetRotation, float tolerance)
+    {
+        return Quaternion.Angle(transform.rotation, targetRotation) < tolerance;
     }
 }
