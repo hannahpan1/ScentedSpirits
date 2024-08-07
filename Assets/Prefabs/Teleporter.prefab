@@ -51,7 +51,6 @@ MonoBehaviour:
   destination: {fileID: 509980325334449604}
   dog: {fileID: 0}
   playerg: {fileID: 0}
-  teleportSound: {fileID: 8300000, guid: f7df409dc24c4d842a93099e0c5a9d34, type: 3}
 --- !u!65 &4485436358500885490
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -85,7 +84,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f7df409dc24c4d842a93099e0c5a9d34, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.234
   m_Pitch: 1
   Loop: 0
   Mute: 0

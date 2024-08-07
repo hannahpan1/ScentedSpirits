@@ -15,6 +15,7 @@ public class BridgePressurePlate : MonoBehaviour
     private int numOnPlate;
     private Vector3 startingPos;
     private GameObject visualPlate;
+    private AudioSource _audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class BridgePressurePlate : MonoBehaviour
         _renderer = transform.parent.GetChild(0).gameObject.GetComponent<Renderer>();
         defaultMaterial = _renderer.material;
         startingPos = transform.position;
+        _audioSource = GetComponent<AudioSource>();
         UpdateBridgeState();
     }
 
@@ -31,6 +33,7 @@ public class BridgePressurePlate : MonoBehaviour
     {
         if (other.gameObject.CompareTag("rat") || other.gameObject.CompareTag("Player"))
         {
+            _audioSource.Play();
             numOnPlate += 1;
             UpdatePressurePlate();
             UpdateBridgeState();
