@@ -8,23 +8,26 @@ public class SpinPropeller : MonoBehaviour
     private int currID;
     public float degreePerSec; // degree it rotates per sec
     private Transform pivot;
-    
-    // Start is called before the first frame update
+
     void Start()
     {
         currID = gameObject.transform.parent.gameObject.GetInstanceID();
         pivot = transform.GetChild(0);
-        GameEvents.current.spinPropeller = OnSpin;
-        GameEvents.current.stopPropeller = OnStop;
+        GameEvents.current.spinPropeller += OnSpin;
+        GameEvents.current.stopPropeller += OnStop;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (spin)
         {
-            transform.RotateAround(pivot.position, Vector3.forward, degreePerSec * Time.deltaTime);  
+            RotateFanBlade();
         }
+    }
+
+    void RotateFanBlade()
+    {
+        transform.RotateAround(pivot.position,pivot.forward, degreePerSec * Time.deltaTime);
     }
 
     void OnSpin(int ID)
