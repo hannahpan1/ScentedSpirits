@@ -5152,8 +5152,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.462
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5365,6 +5365,8 @@ MonoBehaviour:
   start: {x: 0, y: 0, z: 0}
   end: {x: 0, y: 0, z: 0}
   stopped: 0
+  audioSource1: {fileID: -1581954158821480503}
+  biscuitLanding: {fileID: 8300000, guid: 1d61ac10b13744546bb345f42f13c9a9, type: 3}
 --- !u!135 &8580698350041400832
 SphereCollider:
   m_ObjectHideFlags: 0
