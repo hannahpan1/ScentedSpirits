@@ -38,7 +38,7 @@ public class biscuitThrow : MonoBehaviour
     void Update()
     {
         
-        if (lerpPos > lerpLength)
+        if (lerpPos > lerpLength *0.95)
         {
             stopped = true;
         } else
@@ -50,6 +50,7 @@ public class biscuitThrow : MonoBehaviour
         {
             if (!GetComponent<Rigidbody>())
             {
+                transform.position += Vector3.up * 0.5f;
                 Rigidbody rb = this.gameObject.AddComponent<Rigidbody>();
                 //rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
                 rb.constraints = RigidbodyConstraints.FreezeRotation;
