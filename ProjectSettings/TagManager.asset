@@ -16,6 +16,7 @@ TagManager:
   - Particle
   - Bridge
   - Door
+  - Lever
   layers:
   - Default
   - TransparentFX

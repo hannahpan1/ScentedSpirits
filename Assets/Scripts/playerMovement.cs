@@ -10,8 +10,8 @@ public class playerMovement : MonoBehaviour
 {
     Rigidbody rb;
     CapsuleCollider col;
-    float speed = 50;
-    float topSpeed = 6;
+    float speed = 2000;
+    float topSpeed = 8;
     float rotationGoal;
     float currentRotation;
     public float jumpStrength = 10f; // Increased jump strength
@@ -83,6 +83,14 @@ public class playerMovement : MonoBehaviour
         //    jump();
         //}
 
+        
+
+       
+
+    }
+
+    private void FixedUpdate()
+    {
         currentRotation = currentRotation + (rotationGoal - currentRotation) * 10f * Time.deltaTime;
         transform.eulerAngles = new Vector3(0, currentRotation, 0);
 
@@ -94,15 +102,15 @@ public class playerMovement : MonoBehaviour
         // Project the movement direction onto the plane defined by the surface normal
         moveDirection = Vector3.ProjectOnPlane(moveDirection, SurfaceNormal());
 
-
         if (!groundCol())
         {
-            rb.AddForce(moveDirection * speed * stickRadius, ForceMode.Acceleration);
-        } else
-        {
-            rb.AddForce(moveDirection * speed * stickRadius * 0.2f, ForceMode.Acceleration);
+            rb.AddForce(moveDirection * speed * stickRadius *Time.deltaTime, ForceMode.Acceleration);
         }
-        
+        else
+        {
+            rb.AddForce(moveDirection * speed * stickRadius * 0.2f * Time.deltaTime, ForceMode.Acceleration);
+        }
+
 
         //Apply custom gravity
         //if (!Physics.Raycast(transform.position, Vector3.down, col.bounds.extents.y + 0.1f))
@@ -113,8 +121,7 @@ public class playerMovement : MonoBehaviour
         // Clamp the velocity to the top speed
         rb.velocity = new Vector3(Mathf.Clamp(rb.velocity.x, -topSpeed, topSpeed), rb.velocity.y, Mathf.Clamp(rb.velocity.z, -topSpeed, topSpeed));
 
-        myAnim.SetBool("IsMoving", moveDirection.x != 0 || moveDirection.z != 0 );
-
+        myAnim.SetBool("IsMoving", moveDirection.x != 0 || moveDirection.z != 0);
     }
 
     private bool groundCol()
@@ -180,5 +187,19 @@ public class playerMovement : MonoBehaviour
         Vector3 launchVector = direction * initialSpeed;
 
         return launchVector;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log(other.gameObject.tag);
+        if (other.gameObject.tag == "Lever")
+        {
+            myAnim.SetTrigger("Lever");
+        }
     }
 }
