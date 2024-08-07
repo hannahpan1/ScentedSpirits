@@ -25,7 +25,7 @@ public class Throw2 : MonoBehaviour
     {
         sources = GetComponents<AudioSource>();
         inventoryManager = FindObjectOfType<InventoryManager>();
-        Debug.Log("found: " + inventoryManager.name);
+        
         camera = Camera.main;
         layerMask &= ~(1 << 3);
         layerMask |= (1 << 0);

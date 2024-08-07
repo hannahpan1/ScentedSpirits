@@ -25,11 +25,11 @@ public class Lever : MonoBehaviour
         yRot = transform.eulerAngles.y;
         if (switchOn)
         {
-            transform.localEulerAngles = new Vector3(rotationRange, yRot, 0);
+            transform.localEulerAngles = new Vector3(rotationRange, 0, yRot);
         }
         else
         {
-            transform.localEulerAngles = new Vector3(-rotationRange, yRot, 0);
+            transform.localEulerAngles = new Vector3(-rotationRange, 0, yRot);
         }
 
         _audioSource = GetComponent<AudioSource>();
@@ -54,7 +54,7 @@ public class Lever : MonoBehaviour
         {
             rotation += (-rotationRange - rotation) * speed * Time.deltaTime;
         }
-        transform.localEulerAngles = new Vector3(rotation, yRot, 0);
+        transform.localEulerAngles = new Vector3(0, yRot, rotation);
     }
 
     void OnTriggerEnter(Collider other)
